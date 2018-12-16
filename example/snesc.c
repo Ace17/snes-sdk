@@ -184,8 +184,7 @@ void run_frame()
       if((pos.x >= px) && (pos.x <= px + 27))
       {
         int a = (pos.x - px) / 7;
-        vel.x = dir[a].x;
-        vel.y = dir[a].y;
+        vel = dir[a];
       }
     }
     else if(pos.y > 224)

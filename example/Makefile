@@ -27,6 +27,7 @@ $(BIN)/snesc.smc: $(ASMOBJ) $(COBJ)
 $(BIN)/%.s: %.c
 	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) -I. -o $@ -c $<
+	@gcc -MM -MT "$@" -I. -o "$(BIN)/$*.dep" -c $<
 
 $(BIN)/%.obj: $(BIN)/%.s
 	@mkdir -p $(dir $@)
@@ -38,3 +39,5 @@ $(BIN)/%.obj: %.asm
 
 clean:
 	rm -rf $(BIN)
+
+-include $(shell test -d $(BIN) && find $(BIN) -name "*.dep")

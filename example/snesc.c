@@ -34,17 +34,21 @@ static const char* ST_GAMEOVER = "GAME OVER";
 static const char* ST_PAUSED = "PAUSE";
 static const char* ST_BLANK = "        ";
 
-int dx = 2, dy = 1, px = 80;
+int px = 80;
 unsigned int i, j, b = 0, c, obx, oby, bx = 5, by = 11, py = 0;
 
 typedef struct
 {
   int x, y;
-} Vec2;
+}Vec2;
 
+Vec2 vel = { 2, 1 };
 Vec2 pos = { 94, 109 };
 
-Vec2 dir[4] = {{-2, -1}, {-1, -2}, {1, -2}, {2, -1}};
+Vec2 dir[4] =
+{
+  { -2, -1 }, { -1, -2 }, { 1, -2 }, { 2, -1 }
+};
 unsigned int blockcount = 0;
 unsigned long long score = 0, hiscore = 50000;
 unsigned int level2 = 1;
@@ -121,8 +125,10 @@ int clamp(int val, int min, int max)
 {
   if(val < min)
     val = min;
+
   if(val > max)
     val = max;
+
   return val;
 }
 
@@ -153,23 +159,23 @@ void run_frame()
 
   px = clamp(px, 16, 144);
 
-  pos.x += dx;
-  pos.y += dy;
+  pos.x += vel.x;
+  pos.y += vel.y;
 
   if(pos.x > 171)
   {
-    dx = -dx;
+    vel.x = -vel.x;
     pos.x = 171;
   }
   else if(pos.x < 16)
   {
-    dx = -dx;
+    vel.x = -vel.x;
     pos.x = 16;
   }
 
   if(pos.y < 15)
   {
-    dy = -dy;
+    vel.y = -vel.y;
   }
   else if(pos.y > 195)
   {
@@ -178,8 +184,8 @@ void run_frame()
       if((pos.x >= px) && (pos.x <= px + 27))
       {
         int a = (pos.x - px) / 7;
-        dx = dir[a].x;
-        dy = dir[a].y;
+        vel.x = dir[a].x;
+        vel.y = dir[a].y;
       }
     }
     else if(pos.y > 224)
@@ -205,10 +211,10 @@ void run_frame()
           score += blocks[b] + 1;
 
         if(oby != by)
-          dy = -dy;
+          vel.y = -vel.y;
 
         if(obx != bx)
-          dx = -dx;
+          vel.x = -vel.x;
 
         blocks[b] = 8;
         b = (by << 5) + (bx << 1);

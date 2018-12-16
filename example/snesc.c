@@ -25,13 +25,15 @@ unsigned char blocks[0x64], map[0x64] =
  8,8,6,8,6,6,8,6,8,8,
  7,7,7,7,8,8,7,7,7,7};
 
-int main() {
+static const char* st1 = "PLAYER 1\n\n READY";
+static const char* st2 = "GAME OVER";
+static const char* st3 = "PAUSE";
+static const char* st4 = "        ";
+
+int main()
+{
   snesc_init();
 
-  char st1[]="PLAYER 1\n\n READY";
-  char st2[]="GAME OVER";
-  char st3[]="PAUSE";
-  char st4[]="        ";
   unsigned int i, j, a, b=0, c, obx, oby, bx=5, by=11, py=0, x=94, y=109;
   signed int dx=2, dy=1, px=80, xdir[4]={-2,-1,1,2}, ydir[4]={-1,-2,-2,-1};
   unsigned int blockcount=0;

@@ -360,8 +360,6 @@ int main()
 
   draw_screen();
 
-  delay(50);
-
   while(getjoystatus(0) == 0)
     continue;
 

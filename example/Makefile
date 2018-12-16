@@ -1,6 +1,8 @@
 PREFIX=/tmp/snes-sdk
 OPTIMIZE=1
 
+BIN?=bin
+
 CFLAGS=-Wall
 ifeq ($(OPTIMIZE),1)
 CFLAGS += -O
@@ -13,21 +15,26 @@ CC=$(BINDIR)/816-tcc
 
 LIBDIR=$(PREFIX)/lib
 
-ASMOBJ = data.obj
-COBJ = snesc.obj input.obj init.obj graph.obj str.obj
+ASMOBJ = $(BIN)/data.obj
+COBJ = $(BIN)/snesc.obj $(BIN)/input.obj $(BIN)/init.obj $(BIN)/graph.obj $(BIN)/str.obj
 
-all: snesc.smc
+all: $(BIN)/snesc.smc
 
-snesc.smc: $(ASMOBJ) $(COBJ)
-	$(LD) -dvSo $(ASMOBJ) $(COBJ) snesc.smc
+$(BIN)/snesc.smc: $(ASMOBJ) $(COBJ)
+	@mkdir -p $(dir $@)
+	$(LD) -dvSo $(ASMOBJ) $(COBJ) "$@"
 
-%.s: %.c
+$(BIN)/%.s: %.c
+	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) -I. -o $@ -c $<
 
-%.obj: %.s
+$(BIN)/%.obj: $(BIN)/%.s
+	@mkdir -p $(dir $@)
 	$(AS) -io $< $@
-%.obj: %.asm
+
+$(BIN)/%.obj: %.asm
+	@mkdir -p $(dir $@)
 	$(AS) -io $< $@
 
 clean:
-	rm -f snesc.smc snesc.sym $(ASMOBJ) $(COBJ) *.s
+	rm -rf $(BIN)

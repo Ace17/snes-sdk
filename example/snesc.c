@@ -32,7 +32,7 @@ static const char* st4 = "        ";
 
 signed int dx = 2, dy = 1, px = 80;
 unsigned int x = 94, y = 109;
-unsigned int i, j, a, b = 0, c, obx, oby, bx = 5, by = 11, py = 0;
+unsigned int i, j, b = 0, c, obx, oby, bx = 5, by = 11, py = 0;
 signed int xdir[4] = { -2, -1, 1, 2 };
 signed int ydir[4] = { -1, -2, -2, -1 };
 unsigned int blockcount = 0;
@@ -117,7 +117,7 @@ void run_frame()
     {
       if((x >= px) && (x <= px + 27))
       {
-        a = (x - px) / 7;
+        int a = (x - px) / 7;
         dx = xdir[a];
         dy = ydir[a];
       }
@@ -230,7 +230,7 @@ void run_frame()
           {
             for(i = 0; i < 20; i++, i++)
             {
-              a = blocks[b];
+              int a = blocks[b];
 
               if(a < 8)
               {
@@ -309,7 +309,7 @@ int main()
   {
     for(i = 0; i < 20; i += 2)
     {
-      a = blocks[b];
+      int a = blocks[b];
 
       if(a < 8)
       {

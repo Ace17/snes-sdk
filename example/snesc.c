@@ -1,6 +1,7 @@
 #include <string.h>
 #include "snesc.h"
 #include "graph.h"
+#include "input.h"
 
 #define OUTLIT(x) (*((char*)0xfffe) = (x))
 void write(char* s) {

@@ -10,6 +10,12 @@ void poke(u16 address, u8 value)
 }
 
 inline
+void poke16(u16 address, u16 value)
+{
+  *(u16*)address = value;
+}
+
+inline
 u8 peek(u16 address)
 {
   return *((u8*)0x4212);

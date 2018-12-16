@@ -65,16 +65,16 @@ void snesc_vblank(void)
         switch(snesc_dma_transfers[x].src.c.type)   /* type of transfer */
         {
         case 0: /* VRAM */
-          *((unsigned short*)0x4300) = 0x1801;  /* 2 regs write once, Bus B addr $2118 (VRAM data write) */
-          *((unsigned short*)0x2116) = snesc_dma_transfers[x].dest; /* VRAM address */
+          poke16(0x4300, 0x1801); // 2 regs write once, Bus B addr $2118 (VRAM data write)
+          poke16(0x2116, snesc_dma_transfers[x].dest); // VRAM address
           break;
         case 1: /* OAM */
-          *((unsigned short*)0x4300) = 0x400;   /* DMA OAM write */
-          *((unsigned short*)0x2102) = snesc_dma_transfers[x].dest; /* OAM address */
+          poke16(0x4300, 0x400); // DMA OAM write
+          poke16(0x2102, snesc_dma_transfers[x].dest); // OAM address
           break;
         case 2: /* CGRAM */
-          *((unsigned short*)0x4300) = 0x2200;  /* CGRAM write */
-          *((unsigned char*)0x2121) = snesc_dma_transfers[x].dest;  /* CGRAM address (trunc'd to 8 bits) */
+          poke16(0x4300, 0x2200); // CGRAM write
+          poke(0x2121, snesc_dma_transfers[x].dest); // CGRAM address (trunc'd to 8 bits)
           break;
         }
 

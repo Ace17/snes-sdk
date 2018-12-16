@@ -13,8 +13,11 @@ extern unsigned char backpal[];
 unsigned int blockmap[0x400];
 unsigned int backmap[0x400];
 unsigned int pal[0x100];
-unsigned char blocks[0x64], map[0x64] =
-{ 7, 8, 8, 8, 8, 8, 8, 8, 8, 7,
+unsigned char blocks[0x64];
+
+unsigned char map[0x64] =
+{
+  7, 8, 8, 8, 8, 8, 8, 8, 8, 7,
   8, 7, 8, 7, 8, 8, 7, 8, 7, 8,
   8, 8, 7, 8, 7, 7, 8, 7, 8, 8,
   8, 8, 8, 1, 3, 3, 1, 8, 8, 8,
@@ -23,7 +26,8 @@ unsigned char blocks[0x64], map[0x64] =
   8, 0, 4, 8, 8, 8, 8, 4, 0, 8,
   8, 8, 8, 1, 3, 3, 1, 8, 8, 8,
   8, 8, 6, 8, 6, 6, 8, 6, 8, 8,
-  7, 7, 7, 7, 8, 8, 7, 7, 7, 7 };
+  7, 7, 7, 7, 8, 8, 7, 7, 7, 7,
+};
 
 static const char* st1 = "PLAYER 1\n\n READY";
 static const char* st2 = "GAME OVER";

@@ -35,7 +35,7 @@ static const char* ST_PAUSED = "PAUSE";
 static const char* ST_BLANK = "        ";
 
 int px = 80;
-unsigned int i, j, b = 0, c, obx, oby, bx = 5, by = 11, py = 0;
+unsigned int b = 0, c, obx, oby, bx = 5, by = 11, py = 0;
 
 typedef struct
 {
@@ -160,8 +160,12 @@ void new_level()
   memcpy(pal + 16, backpal + color * 16, 0x10);
   b = 0;
 
+  int j;
+
   for(j = 0; j < 10; j++)
   {
+    int i;
+
     for(i = 0; i < 20; i++, i++)
     {
       int a = blocks[b];
@@ -269,6 +273,8 @@ void run_frame()
       {
         blockcount--;
 
+        int i;
+
         for(i = 0; i <= level; i++)
           score += blocks[b] + 1;
 
@@ -320,8 +326,12 @@ int main()
   memcpy(blocks, map, 0x64);
   memcpy(pal, palette, 0x200);
 
+  int j;
+
   for(j = 0; j < 10; j++)
   {
+    int i;
+
     for(i = 0; i < 20; i += 2)
     {
       int a = blocks[b];

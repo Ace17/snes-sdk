@@ -35,13 +35,14 @@ static const char* ST_PAUSED = "PAUSE";
 static const char* ST_BLANK = "        ";
 
 int dx = 2, dy = 1, px = 80;
-unsigned int x = 94, y = 109;
 unsigned int i, j, b = 0, c, obx, oby, bx = 5, by = 11, py = 0;
 
 typedef struct
 {
   int x, y;
 } Vec2;
+
+Vec2 pos = { 94, 109 };
 
 Vec2 dir[4] = {{-2, -1}, {-1, -2}, {1, -2}, {2, -1}};
 unsigned int blockcount = 0;
@@ -59,22 +60,22 @@ void die()
   }
 
   lives--;
-  x = 94;
-  y = 109;
+  pos.x = 94;
+  pos.y = 109;
   px = 80;
   writenum(lives, 8, blockmap, 0x136, 0x426);
   writestring(ST_READY, blockmap, 0x248, 0x3F6);
   setmap(0, (unsigned char*)blockmap);
 
   // main sprites
-  setsprite(0, x, y, 20, 0x31);
+  setsprite(0, pos.x, pos.y, 20, 0x31);
   setsprite(1, px, 200, 15, 0x31);
   setsprite(2, px + 8, 200, 16, 0x31);
   setsprite(3, px + 16, 200, 16, 0x31 + 64);
   setsprite(4, px + 24, 200, 17, 0x31);
 
   // shadow sprites
-  setsprite(5, x + 3, y + 3, 21, 0x11);
+  setsprite(5, pos.x + 3, pos.y + 3, 21, 0x11);
   setsprite(6, px + 4, 204, 18, 0x11);
   setsprite(7, px + 12, 204, 19, 0x11);
   setsprite(8, px + 20, 204, 19, 0x11 + 64);
@@ -152,46 +153,46 @@ void run_frame()
 
   px = clamp(px, 16, 144);
 
-  x += dx;
-  y += dy;
+  pos.x += dx;
+  pos.y += dy;
 
-  if(x > 171)
+  if(pos.x > 171)
   {
     dx = -dx;
-    x = 171;
+    pos.x = 171;
   }
-  else if(x < 16)
+  else if(pos.x < 16)
   {
     dx = -dx;
-    x = 16;
+    pos.x = 16;
   }
 
-  if(y < 15)
+  if(pos.y < 15)
   {
     dy = -dy;
   }
-  else if(y > 195)
+  else if(pos.y > 195)
   {
-    if(y < 203)
+    if(pos.y < 203)
     {
-      if((x >= px) && (x <= px + 27))
+      if((pos.x >= px) && (pos.x <= px + 27))
       {
-        int a = (x - px) / 7;
+        int a = (pos.x - px) / 7;
         dx = dir[a].x;
         dy = dir[a].y;
       }
     }
-    else if(y > 224)
+    else if(pos.y > 224)
     {
       die();
     }
   }
-  else if(y < 112)
+  else if(pos.y < 112)
   {
     obx = bx;
     oby = by;
-    bx = (x - 14) >> 4;
-    by = (y - 14) >> 3;
+    bx = (pos.x - 14) >> 4;
+    by = (pos.y - 14) >> 3;
     b = bx + (by << 3) + (by << 1) - 10;
 
     if((b >= 0) && (b < 100))
@@ -231,8 +232,8 @@ void run_frame()
           // new level
           level++;
           level2++;
-          x = 94;
-          y = 109;
+          pos.x = 94;
+          pos.y = 109;
           px = 80;
           writenum(level2, 8, blockmap, 0x2D6, 0x426);
           writestring(ST_READY, blockmap, 0x248, 0x3F6);
@@ -274,14 +275,14 @@ void run_frame()
           setmap(1, (unsigned char*)backmap);
 
           // main sprites
-          setsprite(0, x, y, 20, 0x31);
+          setsprite(0, pos.x, pos.y, 20, 0x31);
           setsprite(1, px, 200, 15, 0x31);
           setsprite(2, px + 8, 200, 16, 0x31);
           setsprite(3, px + 16, 200, 16, 0x31 + 64);
           setsprite(4, px + 24, 200, 17, 0x31);
 
           // shadow sprites
-          setsprite(5, x + 3, y + 3, 21, 0x11);
+          setsprite(5, pos.x + 3, pos.y + 3, 21, 0x11);
           setsprite(6, px + 4, 204, 18, 0x11);
           setsprite(7, px + 12, 204, 19, 0x11);
           setsprite(8, px + 20, 204, 19, 0x11 + 64);
@@ -300,14 +301,14 @@ void run_frame()
   }
 
   // main sprites
-  setsprite(0, x, y, 20, 0x31);
+  setsprite(0, pos.x, pos.y, 20, 0x31);
   setsprite(1, px, 200, 15, 0x31);
   setsprite(2, px + 8, 200, 16, 0x31);
   setsprite(3, px + 16, 200, 16, 0x31 + 64);
   setsprite(4, px + 24, 200, 17, 0x31);
 
   // shadow sprites
-  setsprite(5, x + 3, y + 3, 21, 0x11);
+  setsprite(5, pos.x + 3, pos.y + 3, 21, 0x11);
   setsprite(6, px + 4, 204, 18, 0x11);
   setsprite(7, px + 12, 204, 19, 0x11);
   setsprite(8, px + 20, 204, 19, 0x11 + 64);
@@ -358,14 +359,14 @@ int main()
   enablescreen();
 
   // main sprites
-  setsprite(0, x, y, 20, 0x31);
+  setsprite(0, pos.x, pos.y, 20, 0x31);
   setsprite(1, px, 200, 15, 0x31);
   setsprite(2, px + 8, 200, 16, 0x31);
   setsprite(3, px + 16, 200, 16, 0x31 + 64);
   setsprite(4, px + 24, 200, 17, 0x31);
 
   // shadow sprites
-  setsprite(5, x + 3, y + 3, 21, 0x11);
+  setsprite(5, pos.x + 3, pos.y + 3, 21, 0x11);
   setsprite(6, px + 4, 204, 18, 0x11);
   setsprite(7, px + 12, 204, 19, 0x11);
   setsprite(8, px + 20, 204, 19, 0x11 + 64);

@@ -3,11 +3,6 @@
 #include "graph.h"
 #include "input.h"
 
-#define OUTLIT(x) (*((char*)0xfffe) = (x))
-void write(char* s) {
-  while(*s) OUTLIT(*s++);
-}
-
 extern unsigned char tiles1[];
 extern unsigned char tiles2[];
 extern unsigned char bg1map[];

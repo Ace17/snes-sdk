@@ -31,8 +31,8 @@ unsigned char map[0x64] =
 
 static const char* st1 = "PLAYER 1\n\n READY";
 static const char* st2 = "GAME OVER";
-static const char* st3 = "PAUSE";
-static const char* st4 = "        ";
+static const char* ST_PAUSED = "PAUSE";
+static const char* ST_BLANK = "        ";
 
 int dx = 2, dy = 1, px = 80;
 unsigned int x = 94, y = 109;
@@ -79,18 +79,16 @@ void die()
   while(getjoystatus(0) == 0)
     continue;
 
-  writestring(st4, blockmap, 0x248, 0x3F6);
-  writestring(st4, blockmap, 0x289, 0x3F6);
+  writestring(ST_BLANK, blockmap, 0x248, 0x3F6);
+  writestring(ST_BLANK, blockmap, 0x289, 0x3F6);
   setmap(0, (unsigned char*)blockmap);
 }
 
-void run_frame()
+void handle_pause()
 {
-  resettimer();
-
   if((getjoystatus(0) & START_BUTTON) != 0)
   {
-    writestring(st3, blockmap, 0x269, 0x3F6);
+    writestring(ST_PAUSED, blockmap, 0x269, 0x3F6);
     setmap(0, (unsigned char*)blockmap);
 
     while(getjoystatus(0) != 0)
@@ -108,9 +106,16 @@ void run_frame()
       delay(5);
     }
 
-    writestring(st4, blockmap, 0x269, 0x3F6);
+    writestring(ST_BLANK, blockmap, 0x269, 0x3F6);
     setmap(0, (unsigned char*)blockmap);
   }
+}
+
+void run_frame()
+{
+  resettimer();
+
+  handle_pause();
 
   if((getjoystatus(0) & A_BUTTON) != 0)
   {
@@ -276,8 +281,8 @@ void run_frame()
           while(getjoystatus(0) == 0)
             continue;
 
-          writestring(st4, blockmap, 0x248, 0x3F6);
-          writestring(st4, blockmap, 0x289, 0x3F6);
+          writestring(ST_BLANK, blockmap, 0x248, 0x3F6);
+          writestring(ST_BLANK, blockmap, 0x289, 0x3F6);
           setmap(0, (unsigned char*)blockmap);
         }
       }
@@ -360,8 +365,8 @@ int main()
   while(getjoystatus(0) == 0)
     continue;
 
-  writestring(st4, blockmap, 0x248, 0x3F6);
-  writestring(st4, blockmap, 0x289, 0x3F6);
+  writestring(ST_BLANK, blockmap, 0x248, 0x3F6);
+  writestring(ST_BLANK, blockmap, 0x289, 0x3F6);
   setmap(0, (unsigned char*)blockmap);
 
   while(1)

@@ -1,4 +1,5 @@
 #include "snesc.h"
+#include "mem.h"
 
 extern void* __nmi_handler;
 
@@ -76,14 +77,14 @@ void snesc_vblank(void)
     }
   }
 
-  while(*((unsigned char*)0x4212) & 1) {}
-  
+  while(peek(0x4212) & 1) {}
+
   /* update input buffers */
   unsigned int pad;
   for(pad = 0; pad < 4 ; pad++) {
     snesc_controllers[pad] |= ((unsigned short*)0x4218)[pad];
   }
-  
+
   /* timer ticks */
   unsigned char timers_enabled = snesc_timer_enabled;
   unsigned int tc = 0;

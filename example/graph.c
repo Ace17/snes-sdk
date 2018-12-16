@@ -1,13 +1,8 @@
 #include <string.h>
 #include "snesc.h"
+#include "mem.h"
 
 void snesc_vblank(void);
-
-inline
-void poke(unsigned short address, unsigned char value)
-{
-  *(unsigned char*)address = value;
-}
 
 void enablescreen(void)
 {

@@ -14,7 +14,7 @@ tcc-65816: tcc-65816/config.h
 tcc-65816/config.h: Makefile
 	cd tcc-65816 && ./configure --prefix=$(PREFIX) --enable-cross
 
-libs: wla_dx
+libs: wla_dx tcc-65816
 
 clean:
 	(for i in $(SUBDIRS) ; do $(MAKE) -C $$i clean || true ; done)

@@ -201,6 +201,23 @@ void new_level()
   setmap(0, (unsigned char*)blockmap);
 }
 
+void draw_screen()
+{
+  // main sprites
+  setsprite(0, pos.x, pos.y, 20, 0x31);
+  setsprite(1, px, 200, 15, 0x31);
+  setsprite(2, px + 8, 200, 16, 0x31);
+  setsprite(3, px + 16, 200, 16, 0x31 + 64);
+  setsprite(4, px + 24, 200, 17, 0x31);
+
+  // shadow sprites
+  setsprite(5, pos.x + 3, pos.y + 3, 21, 0x11);
+  setsprite(6, px + 4, 204, 18, 0x11);
+  setsprite(7, px + 12, 204, 19, 0x11);
+  setsprite(8, px + 20, 204, 19, 0x11 + 64);
+  setsprite(9, px + 28, 204, 18, 0x11 + 64);
+}
+
 void run_frame()
 {
   resettimer();
@@ -309,19 +326,7 @@ void run_frame()
     }
   }
 
-  // main sprites
-  setsprite(0, pos.x, pos.y, 20, 0x31);
-  setsprite(1, px, 200, 15, 0x31);
-  setsprite(2, px + 8, 200, 16, 0x31);
-  setsprite(3, px + 16, 200, 16, 0x31 + 64);
-  setsprite(4, px + 24, 200, 17, 0x31);
-
-  // shadow sprites
-  setsprite(5, pos.x + 3, pos.y + 3, 21, 0x11);
-  setsprite(6, px + 4, 204, 18, 0x11);
-  setsprite(7, px + 12, 204, 19, 0x11);
-  setsprite(8, px + 20, 204, 19, 0x11 + 64);
-  setsprite(9, px + 28, 204, 18, 0x11 + 64);
+  draw_screen();
 
   sync(1);
 }

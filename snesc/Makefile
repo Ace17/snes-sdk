@@ -1,4 +1,4 @@
-PREFIX=/usr/local/snes-sdk
+PREFIX=/tmp/snes-sdk
 OPTIMIZE=1
 
 CFLAGS=-Wall

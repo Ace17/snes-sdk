@@ -1,5 +1,5 @@
 SNES9X=1
-PREFIX = /usr/local/snes-sdk
+PREFIX = /tmp/snes-sdk
 _OS = $(shell uname -s)
 
 ifeq ($(_OS),Darwin)

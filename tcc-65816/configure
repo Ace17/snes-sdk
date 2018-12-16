@@ -270,7 +270,7 @@ echo "mandir=$mandir" >> config.mak
 echo "docdir=$docdir" >> config.mak
 echo "#define CONFIG_TCCDIR \"$tccdir\"" >> $TMPH
 echo "MAKE=$make" >> config.mak
-echo "CC=$cc" >> config.mak
+echo "CC=$cc -m32" >> config.mak
 echo "GCC_MAJOR=$gcc_major" >> config.mak
 echo "#define GCC_MAJOR $gcc_major" >> $TMPH
 echo "HOST_CC=$host_cc" >> config.mak

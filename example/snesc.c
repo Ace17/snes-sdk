@@ -29,8 +29,8 @@ unsigned char map[0x64] =
   7, 7, 7, 7, 8, 8, 7, 7, 7, 7,
 };
 
-static const char* st1 = "PLAYER 1\n\n READY";
-static const char* st2 = "GAME OVER";
+static const char* ST_READY = "PLAYER 1\n\n READY";
+static const char* ST_GAMEOVER = "GAME OVER";
 static const char* ST_PAUSED = "PAUSE";
 static const char* ST_BLANK = "        ";
 
@@ -53,7 +53,7 @@ void die()
 {
   if(lives == 0)
   {
-    writestring(st2, blockmap, 0x267, 0x3F6);
+    writestring(ST_GAMEOVER, blockmap, 0x267, 0x3F6);
     setmap(0, (unsigned char*)blockmap);
     lose: goto lose;
   }
@@ -63,7 +63,7 @@ void die()
   y = 109;
   px = 80;
   writenum(lives, 8, blockmap, 0x136, 0x426);
-  writestring(st1, blockmap, 0x248, 0x3F6);
+  writestring(ST_READY, blockmap, 0x248, 0x3F6);
   setmap(0, (unsigned char*)blockmap);
 
   // main sprites
@@ -235,7 +235,7 @@ void run_frame()
           y = 109;
           px = 80;
           writenum(level2, 8, blockmap, 0x2D6, 0x426);
-          writestring(st1, blockmap, 0x248, 0x3F6);
+          writestring(ST_READY, blockmap, 0x248, 0x3F6);
           memcpy(backmap, bg2map + 0x800 * (level & 3), 0x800);
           memcpy(blocks, map, 0x64);
 
@@ -349,7 +349,7 @@ int main()
   }
 
   writenum(lives, 8, blockmap, 0x136, 0x426);
-  writestring(st1, blockmap, 0x248, 0x3F6);
+  writestring(ST_READY, blockmap, 0x248, 0x3F6);
 
   setmap(0, (unsigned char*)blockmap);
   setmap(1, (unsigned char*)backmap);

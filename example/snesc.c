@@ -111,6 +111,15 @@ void handle_pause()
   }
 }
 
+int clamp(int val, int min, int max)
+{
+  if(val < min)
+    val = min;
+  if(val > max)
+    val = max;
+  return val;
+}
+
 void run_frame()
 {
   resettimer();
@@ -136,11 +145,7 @@ void run_frame()
 
   clearjoy(0);
 
-  if(px < 16)
-    px = 16;
-
-  if(px > 144)
-    px = 144;
+  px = clamp(px, 16, 144);
 
   x += dx;
   y += dy;

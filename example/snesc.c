@@ -35,7 +35,7 @@ static const char* ST_PAUSED = "PAUSE";
 static const char* ST_BLANK = "        ";
 
 int px = 80;
-unsigned int b = 0, bx = 5, by = 11, py = 0;
+unsigned int bx = 5, by = 11, py = 0;
 
 typedef struct
 {
@@ -158,7 +158,7 @@ void new_level()
     color = 0;
 
   memcpy(pal + 16, backpal + color * 16, 0x10);
-  b = 0;
+  int b = 0;
 
   int j;
 
@@ -265,7 +265,7 @@ void run_frame()
     int oby = by;
     bx = (pos.x - 14) >> 4;
     by = (pos.y - 14) >> 3;
-    b = bx + (by << 3) + (by << 1) - 10;
+    int b = bx + (by << 3) + (by << 1) - 10;
 
     if((b >= 0) && (b < 100))
     {
@@ -326,6 +326,7 @@ int main()
   memcpy(blocks, map, 0x64);
   memcpy(pal, palette, 0x200);
 
+  int b = 0;
   int j;
 
   for(j = 0; j < 10; j++)
@@ -334,7 +335,7 @@ int main()
 
     for(i = 0; i < 20; i += 2)
     {
-      int a = blocks[b];
+      int a = blocks[b++];
 
       if(a < 8)
       {
@@ -345,8 +346,6 @@ int main()
         backmap[0x83 + c] += 0x400;
         backmap[0x84 + c] += 0x400;
       }
-
-      b++;
     }
   }
 

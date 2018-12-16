@@ -35,7 +35,7 @@ static const char* ST_PAUSED = "PAUSE";
 static const char* ST_BLANK = "        ";
 
 int px = 80;
-unsigned int b = 0, c, obx, oby, bx = 5, by = 11, py = 0;
+unsigned int b = 0, c, bx = 5, by = 11, py = 0;
 
 typedef struct
 {
@@ -261,8 +261,8 @@ void run_frame()
   }
   else if(pos.y < 112)
   {
-    obx = bx;
-    oby = by;
+    int obx = bx;
+    int oby = by;
     bx = (pos.x - 14) >> 4;
     by = (pos.y - 14) >> 3;
     b = bx + (by << 3) + (by << 1) - 10;

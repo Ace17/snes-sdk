@@ -34,11 +34,11 @@ static const char* st2 = "GAME OVER";
 static const char* st3 = "PAUSE";
 static const char* st4 = "        ";
 
-signed int dx = 2, dy = 1, px = 80;
+int dx = 2, dy = 1, px = 80;
 unsigned int x = 94, y = 109;
 unsigned int i, j, b = 0, c, obx, oby, bx = 5, by = 11, py = 0;
-signed int xdir[4] = { -2, -1, 1, 2 };
-signed int ydir[4] = { -1, -2, -2, -1 };
+int xdir[4] = { -2, -1, 1, 2 };
+int ydir[4] = { -1, -2, -2, -1 };
 unsigned int blockcount = 0;
 unsigned long long score = 0, hiscore = 50000;
 unsigned int level2 = 1;

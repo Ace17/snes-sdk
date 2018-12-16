@@ -35,7 +35,7 @@ static const char* ST_PAUSED = "PAUSE";
 static const char* ST_BLANK = "        ";
 
 int px = 80;
-unsigned int bx = 5, by = 11, py = 0;
+unsigned int bx = 5, by = 11;
 
 typedef struct
 {
@@ -59,7 +59,7 @@ void draw_screen()
 {
   // main sprites
   setsprite(0, pos.x, pos.y, 20, 0x31);
-  setsprite(1, px, 200, 15, 0x31);
+  setsprite(1, px + 0, 200, 15, 0x31);
   setsprite(2, px + 8, 200, 16, 0x31);
   setsprite(3, px + 16, 200, 16, 0x31 + 64);
   setsprite(4, px + 24, 200, 17, 0x31);

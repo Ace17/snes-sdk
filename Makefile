@@ -19,9 +19,6 @@ libs: wla_dx
 clean:
 	(for i in $(SUBDIRS) ; do $(MAKE) -C $$i clean || true ; done)
 
-distclean: clean
-	cd snesc && $(MAKE) clean
-
 install:
 	mkdir -p $(DESTDIR)$(PREFIX)
 	mkdir -p $(DESTDIR)$(PREFIX)/lib

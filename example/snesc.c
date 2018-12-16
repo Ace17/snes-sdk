@@ -117,20 +117,20 @@ void run_frame()
 
   handle_pause();
 
-  if((getjoystatus(0) & A_BUTTON) != 0)
+  if(getjoystatus(0) & A_BUTTON != 0)
   {
-    if((getjoystatus(0) & RIGHT_BUTTON) != 0)
+    if(getjoystatus(0) & RIGHT_BUTTON)
       px += 4;
 
-    if((getjoystatus(0) & LEFT_BUTTON) != 0)
+    if(getjoystatus(0) & LEFT_BUTTON)
       px -= 4;
   }
   else
   {
-    if((getjoystatus(0) & RIGHT_BUTTON) != 0)
+    if(getjoystatus(0) & RIGHT_BUTTON)
       px += 2;
 
-    if((getjoystatus(0) & LEFT_BUTTON) != 0)
+    if(getjoystatus(0) & LEFT_BUTTON)
       px -= 2;
   }
 

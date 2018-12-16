@@ -1,14 +1,17 @@
 #pragma once
 
+typedef unsigned char u8;
+typedef unsigned short u16;
+
 inline
-void poke(unsigned short address, unsigned char value)
+void poke(u16 address, u8 value)
 {
-  *(unsigned char*)address = value;
+  *(u8*)address = value;
 }
 
 inline
-unsigned char peek(unsigned short address)
+u8 peek(u16 address)
 {
-  return *((unsigned char*)0x4212);
+  return *((u8*)0x4212);
 }
 

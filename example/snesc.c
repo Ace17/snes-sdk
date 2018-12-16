@@ -45,14 +45,32 @@ typedef struct
 Vec2 vel = { 2, 1 };
 Vec2 pos = { 94, 109 };
 
-Vec2 dir[4] =
+static const Vec2 dir[4] =
 {
   { -2, -1 }, { -1, -2 }, { 1, -2 }, { 2, -1 }
 };
+
 unsigned int blockcount = 0;
 unsigned long long score = 0, hiscore = 50000;
 unsigned int level2 = 1;
 unsigned int color = 0, level = 0, lives = 4;
+
+void draw_screen()
+{
+  // main sprites
+  setsprite(0, pos.x, pos.y, 20, 0x31);
+  setsprite(1, px, 200, 15, 0x31);
+  setsprite(2, px + 8, 200, 16, 0x31);
+  setsprite(3, px + 16, 200, 16, 0x31 + 64);
+  setsprite(4, px + 24, 200, 17, 0x31);
+
+  // shadow sprites
+  setsprite(5, pos.x + 3, pos.y + 3, 21, 0x11);
+  setsprite(6, px + 4, 204, 18, 0x11);
+  setsprite(7, px + 12, 204, 19, 0x11);
+  setsprite(8, px + 20, 204, 19, 0x11 + 64);
+  setsprite(9, px + 28, 204, 18, 0x11 + 64);
+}
 
 void die()
 {
@@ -71,19 +89,7 @@ void die()
   writestring(ST_READY, blockmap, 0x248, 0x3F6);
   setmap(0, (unsigned char*)blockmap);
 
-  // main sprites
-  setsprite(0, pos.x, pos.y, 20, 0x31);
-  setsprite(1, px, 200, 15, 0x31);
-  setsprite(2, px + 8, 200, 16, 0x31);
-  setsprite(3, px + 16, 200, 16, 0x31 + 64);
-  setsprite(4, px + 24, 200, 17, 0x31);
-
-  // shadow sprites
-  setsprite(5, pos.x + 3, pos.y + 3, 21, 0x11);
-  setsprite(6, px + 4, 204, 18, 0x11);
-  setsprite(7, px + 12, 204, 19, 0x11);
-  setsprite(8, px + 20, 204, 19, 0x11 + 64);
-  setsprite(9, px + 28, 204, 18, 0x11 + 64);
+  draw_screen();
   delay(50);
 
   while(getjoystatus(0) == 0)
@@ -178,19 +184,7 @@ void new_level()
   setmap(0, (unsigned char*)blockmap);
   setmap(1, (unsigned char*)backmap);
 
-  // main sprites
-  setsprite(0, pos.x, pos.y, 20, 0x31);
-  setsprite(1, px, 200, 15, 0x31);
-  setsprite(2, px + 8, 200, 16, 0x31);
-  setsprite(3, px + 16, 200, 16, 0x31 + 64);
-  setsprite(4, px + 24, 200, 17, 0x31);
-
-  // shadow sprites
-  setsprite(5, pos.x + 3, pos.y + 3, 21, 0x11);
-  setsprite(6, px + 4, 204, 18, 0x11);
-  setsprite(7, px + 12, 204, 19, 0x11);
-  setsprite(8, px + 20, 204, 19, 0x11 + 64);
-  setsprite(9, px + 28, 204, 18, 0x11 + 64);
+  draw_screen();
   delay(50);
 
   while(getjoystatus(0) == 0)
@@ -199,23 +193,6 @@ void new_level()
   writestring(ST_BLANK, blockmap, 0x248, 0x3F6);
   writestring(ST_BLANK, blockmap, 0x289, 0x3F6);
   setmap(0, (unsigned char*)blockmap);
-}
-
-void draw_screen()
-{
-  // main sprites
-  setsprite(0, pos.x, pos.y, 20, 0x31);
-  setsprite(1, px, 200, 15, 0x31);
-  setsprite(2, px + 8, 200, 16, 0x31);
-  setsprite(3, px + 16, 200, 16, 0x31 + 64);
-  setsprite(4, px + 24, 200, 17, 0x31);
-
-  // shadow sprites
-  setsprite(5, pos.x + 3, pos.y + 3, 21, 0x11);
-  setsprite(6, px + 4, 204, 18, 0x11);
-  setsprite(7, px + 12, 204, 19, 0x11);
-  setsprite(8, px + 20, 204, 19, 0x11 + 64);
-  setsprite(9, px + 28, 204, 18, 0x11 + 64);
 }
 
 void run_frame()
@@ -372,19 +349,8 @@ int main()
 
   enablescreen();
 
-  // main sprites
-  setsprite(0, pos.x, pos.y, 20, 0x31);
-  setsprite(1, px, 200, 15, 0x31);
-  setsprite(2, px + 8, 200, 16, 0x31);
-  setsprite(3, px + 16, 200, 16, 0x31 + 64);
-  setsprite(4, px + 24, 200, 17, 0x31);
+  draw_screen();
 
-  // shadow sprites
-  setsprite(5, pos.x + 3, pos.y + 3, 21, 0x11);
-  setsprite(6, px + 4, 204, 18, 0x11);
-  setsprite(7, px + 12, 204, 19, 0x11);
-  setsprite(8, px + 20, 204, 19, 0x11 + 64);
-  setsprite(9, px + 28, 204, 18, 0x11 + 64);
   delay(50);
 
   while(getjoystatus(0) == 0)

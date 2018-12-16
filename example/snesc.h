@@ -3,7 +3,7 @@ void snesc_init(void);
 
 /* string */
 void writenum(unsigned long long num, unsigned char len, unsigned int* map, unsigned int p, unsigned int offset);
-void writestring(unsigned char* st, unsigned int* map, unsigned int p, unsigned int offset);
+void writestring(const char* st, unsigned int* map, unsigned int p, unsigned int offset);
 
 extern unsigned char snesc_timer_enabled;
 extern unsigned int snesc_timers[16];

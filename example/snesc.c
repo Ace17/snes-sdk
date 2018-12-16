@@ -44,6 +44,46 @@ unsigned long long score = 0, hiscore = 50000;
 unsigned int level2 = 1;
 unsigned int color = 0, level = 0, lives = 4;
 
+void die()
+{
+  if(lives == 0)
+  {
+    writestring(st2, blockmap, 0x267, 0x3F6);
+    setmap(0, (unsigned char*)blockmap);
+    lose: goto lose;
+  }
+
+  lives--;
+  x = 94;
+  y = 109;
+  px = 80;
+  writenum(lives, 8, blockmap, 0x136, 0x426);
+  writestring(st1, blockmap, 0x248, 0x3F6);
+  setmap(0, (unsigned char*)blockmap);
+
+  // main sprites
+  setsprite(0, x, y, 20, 0x31);
+  setsprite(1, px, 200, 15, 0x31);
+  setsprite(2, px + 8, 200, 16, 0x31);
+  setsprite(3, px + 16, 200, 16, 0x31 + 64);
+  setsprite(4, px + 24, 200, 17, 0x31);
+
+  // shadow sprites
+  setsprite(5, x + 3, y + 3, 21, 0x11);
+  setsprite(6, px + 4, 204, 18, 0x11);
+  setsprite(7, px + 12, 204, 19, 0x11);
+  setsprite(8, px + 20, 204, 19, 0x11 + 64);
+  setsprite(9, px + 28, 204, 18, 0x11 + 64);
+  delay(50);
+
+  while(getjoystatus(0) == 0)
+    continue;
+
+  writestring(st4, blockmap, 0x248, 0x3F6);
+  writestring(st4, blockmap, 0x289, 0x3F6);
+  setmap(0, (unsigned char*)blockmap);
+}
+
 void run_frame()
 {
   resettimer();
@@ -128,43 +168,7 @@ void run_frame()
     }
     else if(y > 224)
     {
-      // death
-      if(lives == 0)
-      {
-        writestring(st2, blockmap, 0x267, 0x3F6);
-        setmap(0, (unsigned char*)blockmap);
-        lose: goto lose;
-      }
-
-      lives--;
-      x = 94;
-      y = 109;
-      px = 80;
-      writenum(lives, 8, blockmap, 0x136, 0x426);
-      writestring(st1, blockmap, 0x248, 0x3F6);
-      setmap(0, (unsigned char*)blockmap);
-
-      // main sprites
-      setsprite(0, x, y, 20, 0x31);
-      setsprite(1, px, 200, 15, 0x31);
-      setsprite(2, px + 8, 200, 16, 0x31);
-      setsprite(3, px + 16, 200, 16, 0x31 + 64);
-      setsprite(4, px + 24, 200, 17, 0x31);
-
-      // shadow sprites
-      setsprite(5, x + 3, y + 3, 21, 0x11);
-      setsprite(6, px + 4, 204, 18, 0x11);
-      setsprite(7, px + 12, 204, 19, 0x11);
-      setsprite(8, px + 20, 204, 19, 0x11 + 64);
-      setsprite(9, px + 28, 204, 18, 0x11 + 64);
-      delay(50);
-
-      while(getjoystatus(0) == 0)
-        continue;
-
-      writestring(st4, blockmap, 0x248, 0x3F6);
-      writestring(st4, blockmap, 0x289, 0x3F6);
-      setmap(0, (unsigned char*)blockmap);
+      die();
     }
   }
   else if(y < 112)

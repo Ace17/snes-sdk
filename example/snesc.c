@@ -132,6 +132,75 @@ int clamp(int val, int min, int max)
   return val;
 }
 
+void new_level()
+{
+  level++;
+  level2++;
+  pos.x = 94;
+  pos.y = 109;
+  px = 80;
+  writenum(level2, 8, blockmap, 0x2D6, 0x426);
+  writestring(ST_READY, blockmap, 0x248, 0x3F6);
+  memcpy(backmap, bg2map + 0x800 * (level & 3), 0x800);
+  memcpy(blocks, map, 0x64);
+
+  if(color < 6)
+  {
+    color++;
+  }
+  else
+    color = 0;
+
+  memcpy(pal + 16, backpal + color * 16, 0x10);
+  b = 0;
+
+  for(j = 0; j < 10; j++)
+  {
+    for(i = 0; i < 20; i++, i++)
+    {
+      int a = blocks[b];
+
+      if(a < 8)
+      {
+        c = (j << 5) + i;
+        blockcount++;
+        blockmap[0x62 + c] = 13 + (a << 10);
+        blockmap[0x63 + c] = 14 + (a << 10);
+        backmap[0x83 + c] += 0x400;
+        backmap[0x84 + c] += 0x400;
+      }
+
+      b++;
+    }
+  }
+
+  setpalette((unsigned char*)pal);
+  setmap(0, (unsigned char*)blockmap);
+  setmap(1, (unsigned char*)backmap);
+
+  // main sprites
+  setsprite(0, pos.x, pos.y, 20, 0x31);
+  setsprite(1, px, 200, 15, 0x31);
+  setsprite(2, px + 8, 200, 16, 0x31);
+  setsprite(3, px + 16, 200, 16, 0x31 + 64);
+  setsprite(4, px + 24, 200, 17, 0x31);
+
+  // shadow sprites
+  setsprite(5, pos.x + 3, pos.y + 3, 21, 0x11);
+  setsprite(6, px + 4, 204, 18, 0x11);
+  setsprite(7, px + 12, 204, 19, 0x11);
+  setsprite(8, px + 20, 204, 19, 0x11 + 64);
+  setsprite(9, px + 28, 204, 18, 0x11 + 64);
+  delay(50);
+
+  while(getjoystatus(0) == 0)
+    continue;
+
+  writestring(ST_BLANK, blockmap, 0x248, 0x3F6);
+  writestring(ST_BLANK, blockmap, 0x289, 0x3F6);
+  setmap(0, (unsigned char*)blockmap);
+}
+
 void run_frame()
 {
   resettimer();
@@ -234,72 +303,7 @@ void run_frame()
 
         if(blockcount == 0)
         {
-          // new level
-          level++;
-          level2++;
-          pos.x = 94;
-          pos.y = 109;
-          px = 80;
-          writenum(level2, 8, blockmap, 0x2D6, 0x426);
-          writestring(ST_READY, blockmap, 0x248, 0x3F6);
-          memcpy(backmap, bg2map + 0x800 * (level & 3), 0x800);
-          memcpy(blocks, map, 0x64);
-
-          if(color < 6)
-          {
-            color++;
-          }
-          else
-            color = 0;
-
-          memcpy(pal + 16, backpal + color * 16, 0x10);
-          b = 0;
-
-          for(j = 0; j < 10; j++)
-          {
-            for(i = 0; i < 20; i++, i++)
-            {
-              int a = blocks[b];
-
-              if(a < 8)
-              {
-                c = (j << 5) + i;
-                blockcount++;
-                blockmap[0x62 + c] = 13 + (a << 10);
-                blockmap[0x63 + c] = 14 + (a << 10);
-                backmap[0x83 + c] += 0x400;
-                backmap[0x84 + c] += 0x400;
-              }
-
-              b++;
-            }
-          }
-
-          setpalette((unsigned char*)pal);
-          setmap(0, (unsigned char*)blockmap);
-          setmap(1, (unsigned char*)backmap);
-
-          // main sprites
-          setsprite(0, pos.x, pos.y, 20, 0x31);
-          setsprite(1, px, 200, 15, 0x31);
-          setsprite(2, px + 8, 200, 16, 0x31);
-          setsprite(3, px + 16, 200, 16, 0x31 + 64);
-          setsprite(4, px + 24, 200, 17, 0x31);
-
-          // shadow sprites
-          setsprite(5, pos.x + 3, pos.y + 3, 21, 0x11);
-          setsprite(6, px + 4, 204, 18, 0x11);
-          setsprite(7, px + 12, 204, 19, 0x11);
-          setsprite(8, px + 20, 204, 19, 0x11 + 64);
-          setsprite(9, px + 28, 204, 18, 0x11 + 64);
-          delay(50);
-
-          while(getjoystatus(0) == 0)
-            continue;
-
-          writestring(ST_BLANK, blockmap, 0x248, 0x3F6);
-          writestring(ST_BLANK, blockmap, 0x289, 0x3F6);
-          setmap(0, (unsigned char*)blockmap);
+          new_level();
         }
       }
     }

@@ -28,7 +28,10 @@ unsigned char blocks[0x64], map[0x64] =
 int main() {
   snesc_init();
 
-  char st[17]="PLAYER 1\n\n READY", st2[10]="GAME OVER", st3[6]="PAUSE", st4[9]="        ";
+  char st1[]="PLAYER 1\n\n READY";
+  char st2[]="GAME OVER";
+  char st3[]="PAUSE";
+  char st4[]="        ";
   unsigned int i, j, a, b=0, c, obx, oby, bx=5, by=11, py=0, x=94, y=109;
   signed int dx=2, dy=1, px=80, xdir[4]={-2,-1,1,2}, ydir[4]={-1,-2,-2,-1};
   unsigned int blockcount=0;
@@ -59,7 +62,7 @@ int main() {
   }
 
   writenum(lives, 8, blockmap, 0x136, 0x426);
-  writestring(st, blockmap, 0x248, 0x3F6);
+  writestring(st1, blockmap, 0x248, 0x3F6);
 
   setmap(0, (unsigned char*)blockmap);
   setmap(1, (unsigned char*)backmap);
@@ -136,7 +139,7 @@ lose: goto lose;
         }
         lives--; x=94; y=109; px=80;
         writenum(lives, 8, blockmap, 0x136, 0x426);
-        writestring(st, blockmap, 0x248, 0x3F6);
+        writestring(st1, blockmap, 0x248, 0x3F6);
         setmap(0, (unsigned char*)blockmap);
 
         // main sprites
@@ -187,7 +190,7 @@ lose: goto lose;
             // new level
             level++; level2++; x=94; y=109; px=80;
             writenum(level2, 8, blockmap, 0x2D6, 0x426);
-            writestring(st, blockmap, 0x248, 0x3F6);
+            writestring(st1, blockmap, 0x248, 0x3F6);
             memcpy(backmap, bg2map+0x800*(level&3), 0x800);
             memcpy(blocks, map, 0x64);
             if (color<6) { color++; } else color=0;

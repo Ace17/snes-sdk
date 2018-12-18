@@ -9,7 +9,7 @@ void poke(u16 address, u8 value)
   *(u8*)address = value;
 }
 
-inline
+static inline
 void poke16(u16 address, u16 value)
 {
   *(u16*)address = value;

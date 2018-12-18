@@ -15,14 +15,13 @@ CC=$(BINDIR)/816-tcc
 
 LIBDIR=$(PREFIX)/lib
 
-ASMOBJ = $(BIN)/data.obj
-COBJ = $(BIN)/snesc.obj $(BIN)/input.obj $(BIN)/init.obj $(BIN)/graph.obj $(BIN)/str.obj
+OBJ = $(BIN)/data.obj $(BIN)/snesc.obj $(BIN)/input.obj $(BIN)/init.obj $(BIN)/graph.obj $(BIN)/str.obj
 
 all: $(BIN)/snesc.smc
 
-$(BIN)/snesc.smc: $(ASMOBJ) $(COBJ)
+$(BIN)/snesc.smc: $(OBJ)
 	@mkdir -p $(dir $@)
-	$(LD) -dvSo $(ASMOBJ) $(COBJ) "$@"
+	$(LD) -dvSo $(OBJ) "$@"
 
 $(BIN)/%.s: %.c
 	@mkdir -p $(dir $@)

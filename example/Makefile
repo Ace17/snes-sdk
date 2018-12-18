@@ -23,14 +23,11 @@ $(BIN)/snesc.smc: $(SRC:%=$(BIN)/%.o)
 	@mkdir -p $(dir $@)
 	$(LD) -dvSo $^ "$@"
 
-$(BIN)/%.c.s: %.c
+$(BIN)/%.c.o: %.c
 	@mkdir -p $(dir $@)
-	$(CC) $(CFLAGS) -I. -o $@ -c $<
+	$(CC) $(CFLAGS) -I. -o "$(BIN)/$*.c.s" -c $<
+	$(AS) -io "$(BIN)/$*.c.s" "$@"
 	@gcc -MM -MT "$@" -I. -o "$(BIN)/$*.dep" -c $<
-
-$(BIN)/%.o: $(BIN)/%.s
-	@mkdir -p $(dir $@)
-	$(AS) -io $< $@
 
 $(BIN)/%.asm.o: %.asm
 	@mkdir -p $(dir $@)

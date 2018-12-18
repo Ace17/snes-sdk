@@ -16,13 +16,12 @@ CC=$(BINDIR)/816-tcc
 LIBDIR=$(PREFIX)/lib
 
 SRC = data.asm snesc.c input.c init.c graph.c str.c
-OBJ = $(SRC:%=$(BIN)/%.o)
 
 all: $(BIN)/snesc.smc
 
-$(BIN)/snesc.smc: $(OBJ)
+$(BIN)/snesc.smc: $(SRC:%=$(BIN)/%.o)
 	@mkdir -p $(dir $@)
-	$(LD) -dvSo $(OBJ) "$@"
+	$(LD) -dvSo $^ "$@"
 
 $(BIN)/%.c.s: %.c
 	@mkdir -p $(dir $@)

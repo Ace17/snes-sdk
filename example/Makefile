@@ -21,7 +21,7 @@ all: $(BIN)/snesc.smc
 
 $(BIN)/snesc.smc: $(SRC:%=$(BIN)/%.o)
 	@mkdir -p $(dir $@)
-	$(LD) -dvSo $^ "$@"
+	$(LD) -dSo $^ "$@"
 
 $(BIN)/%.c.o: %.c
 	@mkdir -p $(dir $@)

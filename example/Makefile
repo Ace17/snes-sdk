@@ -15,7 +15,8 @@ CC=$(BINDIR)/816-tcc
 
 LIBDIR=$(PREFIX)/lib
 
-OBJ = $(BIN)/data.obj $(BIN)/snesc.obj $(BIN)/input.obj $(BIN)/init.obj $(BIN)/graph.obj $(BIN)/str.obj
+SRC = data.asm snesc.c input.c init.c graph.c str.c
+OBJ = $(SRC:%=$(BIN)/%.o)
 
 all: $(BIN)/snesc.smc
 
@@ -23,16 +24,16 @@ $(BIN)/snesc.smc: $(OBJ)
 	@mkdir -p $(dir $@)
 	$(LD) -dvSo $(OBJ) "$@"
 
-$(BIN)/%.s: %.c
+$(BIN)/%.c.s: %.c
 	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) -I. -o $@ -c $<
 	@gcc -MM -MT "$@" -I. -o "$(BIN)/$*.dep" -c $<
 
-$(BIN)/%.obj: $(BIN)/%.s
+$(BIN)/%.o: $(BIN)/%.s
 	@mkdir -p $(dir $@)
 	$(AS) -io $< $@
 
-$(BIN)/%.obj: %.asm
+$(BIN)/%.asm.o: %.asm
 	@mkdir -p $(dir $@)
 	$(AS) -io $< $@
 

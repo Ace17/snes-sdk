@@ -34,21 +34,21 @@ static const char* ST_GAMEOVER = "GAME OVER";
 static const char* ST_PAUSED = "PAUSE";
 static const char* ST_BLANK = "        ";
 
-int px = 80;
-unsigned int bx = 5, by = 11;
-
 typedef struct
 {
   int x, y;
 }Vec2;
 
-Vec2 vel = { 2, 1 };
-Vec2 pos = { 94, 109 };
-
 static const Vec2 dir[4] =
 {
   { -2, -1 }, { -1, -2 }, { 1, -2 }, { 2, -1 }
 };
+
+// Game state
+Vec2 vel = { 2, 1 };
+Vec2 pos = { 94, 109 };
+int px = 80;
+unsigned int bx = 5, by = 11;
 
 unsigned int blockcount = 0;
 unsigned long long score = 0, hiscore = 50000;

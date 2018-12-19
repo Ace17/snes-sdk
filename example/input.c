@@ -1,11 +1,12 @@
-#include "snesc.h"
+#include "input.h"
+#include "init.h"
 
-unsigned int getjoystatus(unsigned int j)
+unsigned int getjoystatus(int j)
 {
   return snesc_controllers[j];
 }
 
-void clearjoy(unsigned int j)
+void clearjoy(int j)
 {
   snesc_controllers[j] = 0;
 }

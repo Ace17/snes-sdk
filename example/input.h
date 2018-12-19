@@ -13,6 +13,6 @@
 #define B_BUTTON 0x4000
 #define A_BUTTON 0x8000
 
-unsigned int getjoystatus(unsigned int j);
-void clearjoy(unsigned int j);
+unsigned int getjoystatus(int j);
+void clearjoy(int j);
 

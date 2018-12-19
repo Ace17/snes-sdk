@@ -7,7 +7,6 @@ void writestring(const char* st, unsigned int* map, unsigned int p, unsigned int
 
 extern unsigned char snesc_timer_enabled;
 extern unsigned int snesc_timers[16];
-extern unsigned int snesc_controllers[4];
 extern unsigned char snesc_do_copy;
 
 struct oam_table1

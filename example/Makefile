@@ -15,7 +15,7 @@ CC=$(BINDIR)/816-tcc
 
 LIBDIR=$(PREFIX)/lib
 
-SRC = data.asm snesc.c input.c init.c graph.c str.c
+SRC = data.asm main.c input.c init.c graph.c str.c
 
 all: $(BIN)/snesc.smc
 

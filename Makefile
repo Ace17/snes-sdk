@@ -7,9 +7,10 @@ all: $(SUBDIRS)
 
 .PHONY: dummy $(SUBDIRS)
 libs wla_dx wla_dx/wlalink wla_dx/wlab: dummy
-	cd $@ && $(MAKE) PREFIX=$(PREFIX)
+	$(MAKE) -C $@ PREFIX=$(PREFIX)
+
 tcc-65816: tcc-65816/config.h
-	@cd $@ && $(MAKE) 816-tcc
+	$(MAKE) -C $@ 816-tcc
 
 tcc-65816/config.h: Makefile
 	cd tcc-65816 && ./configure --prefix=$(PREFIX) --enable-cross

@@ -11,3 +11,23 @@ Objectives:
 - C99 support. Currently, only C89 is supported.
 - Basic C++ 17 support. It would be nice to have: constexpr, virtual functions, destructors, templates. On the other hand, we probably don't need: new, catch/throw, the STL.
 
+Dependencies:
+
+- A C compiler that supports '-m32'. On Debian/Ubuntu:
+```
+$ apt-get install gcc gcc-multilib
+```
+
+Usage:
+
+```
+$ cd snes-sdk
+$ make
+$ make install # This will install the toolchain to /tmp/snes-sdk
+
+$ cd example
+$ make # This will build example/bin/snesc.smc, that you can load into an emulator
+```
+
+
+

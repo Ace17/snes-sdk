@@ -13,7 +13,6 @@ all: $(OBJS)
 
 libc.obj: libc.asm libc_c.asm
 libc_c.asm: libc_c.c $(C_SRC)
-libc_c.c: $(C_SRC)
 libm.obj: libm.asm libm_c.asm
 clean:
 	rm -f $(OBJS) libc_c.asm libm_c.asm

@@ -205,7 +205,7 @@ void run_frame()
 
   handle_pause();
 
-  if(getjoystatus(0) & A_BUTTON != 0)
+  if(getjoystatus(0) & A_BUTTON)
   {
     if(getjoystatus(0) & RIGHT_BUTTON)
       px += 4;

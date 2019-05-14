@@ -1170,7 +1170,7 @@ static void put_extern_sym2(Sym *sym, Section *section,
     int sym_type, sym_bind, sh_num, info;
     Elf32_Sym *esym;
     const char *name;
-    char buf1[256];
+    char buf1[256 + 8];
 
     if (section == NULL)
         sh_num = SHN_UNDEF;
@@ -7969,8 +7969,8 @@ static void expr_eq(void)
                     rc = RC_FLOAT;
                 else
                     rc = RC_INT;
-                    gv(rc);
-                    save_regs(1);
+                gv(rc);
+                save_regs(1);
             }
             if (tok == ':' && gnu_ext) {
                 gv_dup();
@@ -8942,7 +8942,7 @@ static void decl_initializer_alloc(CType *type, AttributeDef *ad, int r,
 {
     int size, align, addr, data_offset;
     int level;
-    ParseState saved_parse_state;
+    ParseState saved_parse_state = { 0 };
     TokenString init_str;
     Section *sec;
 
@@ -9689,7 +9689,6 @@ TCCState *tcc_new(void)
 {
     const char *p, *r;
     TCCState *s;
-    TokenSym *ts;
     int i, c;
 
     s = tcc_mallocz(sizeof(TCCState));
@@ -9715,7 +9714,7 @@ TCCState *tcc_new(void)
             if (c == '\0')
                 break;
         }
-        ts = tok_alloc(p, r - p - 1);
+        tok_alloc(p, r - p - 1);
         p = r;
     }
 
@@ -9944,11 +9943,11 @@ int tcc_add_library_path(TCCState *s, const char *pathname)
 /* XXX: add '-rpath' option support ? */
 static int tcc_add_dll(TCCState *s, const char *filename, int flags)
 {
-    char buf[1024];
+    char buf[2048] = { 0 };
     int i;
 
     for(i = 0; i < s->nb_library_paths; i++) {
-        snprintf(buf, sizeof(buf), "%s/%s",
+        snprintf(buf, sizeof(buf) - 1, "%s/%s",
                  s->library_paths[i], filename);
         if (tcc_add_file_internal(s, buf, flags) == 0)
             return 0;
@@ -10518,7 +10517,7 @@ int main(int argc, char **argv)
 {
     int i;
     TCCState *s;
-    int nb_objfiles, ret, optind;
+    int nb_objfiles, ret;
     char objfilename[1024];
     int64_t start_time = 0;
 
@@ -10551,7 +10550,7 @@ int main(int argc, char **argv)
     reloc_output = 0;
     print_search_dirs = 0;
 
-    optind = parse_args(s, argc - 1, argv + 1) + 1;
+    parse_args(s, argc - 1, argv + 1);
 
     if (print_search_dirs) {
         /* enough for Linux kernel */

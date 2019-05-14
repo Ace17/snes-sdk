@@ -667,7 +667,7 @@ static void put_got_entry(TCCState *s1,
 /* build GOT and PLT entries */
 static void build_got_entries(TCCState *s1)
 {
-    Section *s, *symtab;
+    Section *s;
     Elf32_Rel *rel, *rel_end;
     int i, type;
 #ifndef TCC_TARGET_816
@@ -682,7 +682,6 @@ static void build_got_entries(TCCState *s1)
         /* no need to handle got relocations */
         if (s->link != symtab_section)
             continue;
-        symtab = s->link;
         rel_end = (Elf32_Rel *)(s->data + s->data_offset);
         for(rel = (Elf32_Rel *)s->data;
             rel < rel_end;

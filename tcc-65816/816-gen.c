@@ -116,7 +116,7 @@ int labels = 0;
 
 char* get_sym_str(Sym* sym)
 {
-  static char name[256];
+  static char name[256 + 8];
   char* symname;
 
   symname = get_tok_str(sym->v, NULL);
@@ -166,7 +166,7 @@ void s(char* str)
   for(;*str;str++) g(*str);
 }
 
-char line[256];
+char line[1024];
 #define pr(x...) do { sprintf(line, x); s(line); } while(0)
 
 int jump[1000][2];
@@ -826,7 +826,7 @@ int gtst(int inv, int t)
 // generate an integer operation
 void gen_opi(int op)
 {
-  int r, fr, fc, ft, c, r5;
+  int r, fr, fc, c, r5;
   char* opcrem = 0, *opcalc = 0, *opcarry = 0;
   int optone;
   int docarry;
@@ -844,7 +844,6 @@ void gen_opi(int op)
   // get the actual values
   if((fr & VT_VALMASK) == VT_CONST && op != TOK_UMULL && !(fr & VT_SYM)) {
     // vtop is const, only need to load the other one
-    ft = vtop[0].type.t;
     vtop--;
     r = gv(RC_INT);
     isconst = 1;
@@ -858,7 +857,6 @@ void gen_opi(int op)
     gv2(RC_INT,RC_INT);
     r = vtop[-1].r;
     fr = vtop[0].r;
-    ft = vtop[0].type.t;
     vtop--;
   }
 
@@ -1139,21 +1137,13 @@ void float_to_woz(float, unsigned char*);
 void gen_opf(int op)
 {
 //  error("gen_opf 0x%x ('%c')\n",op,op);
-  int r, fr, ft;
-  float fcf;
   int length, align;
   int ir;
 
   length = type_size(&vtop[0].type, &align);
-  r = vtop[-1].r;
-  fr = vtop[0].r;
-  fcf = vtop[0].c.f;
 
   // get the actual values
   gv2(RC_F1,RC_F0);
-  r = vtop[-1].r;
-  fr = vtop[0].r;
-  ft = vtop[0].type.t;
   vtop--;
 
   pr("; gen_opf len %d op 0x%x ('%c')\n",length,op,op);

@@ -9,7 +9,8 @@ Objectives:
 
 - Switch to a LLVM/clang toolchain: this way we will benefit from lots of code optimizations, allowing us to write simpler C code.
 - C99 support. Currently, only C89 is supported.
-- Basic C++ 17 support. It would be nice to have: constexpr, virtual functions, destructors, templates. On the other hand, we probably don't need: new, catch/throw, the STL.
+- Basic C++ 17 support. It would be nice to have: constexpr, destructors, templates. On the other hand, we probably don't need: new, catch/throw, the STL.
+- Remove the 32-bit requirement: currently tcc makes assumptions about the pointer size being 4 bytes, which causes crashes if compiled to 64 bit.
 
 Dependencies:
 

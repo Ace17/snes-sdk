@@ -1,6 +1,6 @@
 /*
  *  WDC 65816 code generator for TCC
- * 
+ *
  *  Copyright (c) 2007 Ulrich Hecht
  *
  *  Based on arm-gen.c by Daniel Glöckner
@@ -118,9 +118,9 @@ char* get_sym_str(Sym* sym)
 {
   static char name[256];
   char* symname;
-  
+
   symname = get_tok_str(sym->v, NULL);
-  
+
   name[0] = 0;
   /* if static, add prefix */
 #if 0
@@ -142,7 +142,7 @@ char* get_sym_str(Sym* sym)
     }
 #endif
   }
-    
+
   /* add symbol name */
   strcat(name, symname);
 
@@ -242,7 +242,7 @@ void load(int r, SValue* sv)
   fr = sv->r;
   ft = sv->type.t;
   fc = sv->c.ul;
-  
+
   length = type_size(&sv->type, &align);
   if((ft & VT_BTYPE) == VT_LLONG) length = 2; // long longs are handled word-wise
   if(ll_workaround) length = 4;
@@ -257,7 +257,7 @@ void load(int r, SValue* sv)
     fc = -fc;
   }
 #endif
-  
+
   int base = -1;
   v = fr & VT_VALMASK;
   if(fr & VT_LVAL) {
@@ -322,7 +322,7 @@ void load(int r, SValue* sv)
       fc = sign = 0;
       v = VT_LOCAL;
     }
-    
+
     if(v == VT_LOCAL) {
       if(is_float(ft)) {
         if(base == -1) {
@@ -460,14 +460,14 @@ void store(int r, SValue* sv)
   int base;
   int length, align;
   SValue v1;
-  
+
   fr = sv->r;
   ft = sv->type.t;
   fc = sv->c.i;
-  
+
   length = type_size(&sv->type, &align);
   if((ft & VT_BTYPE) == VT_LLONG) length = 2; // long longs are handled word-wise
-  
+
   pr("; store r 0x%x fr 0x%x ft 0x%x fc 0x%x\n",r,fr,ft,fc);
 
 #if 0
@@ -487,7 +487,7 @@ void store(int r, SValue* sv)
     fc = -fc;
   }
 #endif
-  
+
   v = fr & VT_VALMASK;
   base = -1;
   if ((fr & VT_LVAL) || fr == VT_LOCAL) {
@@ -505,7 +505,7 @@ void store(int r, SValue* sv)
         switch(length) {
           case 1: pr("sep #$20\nlda.b tcc__r%d\nsta.l %s + %d\nrep #$20\n", r, sy, fc); break;
           case 2: pr("lda.b tcc__r%d\nsta.l %s + %d\n", r, sy, fc); break;
-          case 4: 
+          case 4:
             if(r >= TREG_F0)
               pr("lda.b tcc__f%d\nsta.l %s + %d\nlda.b tcc__f%dh\nsta.l %s + %d + 2\n", r - TREG_F0, sy, fc, r - TREG_F0, sy, fc);
             else
@@ -587,7 +587,7 @@ void gfunc_call(int nb_args)
 {
   int align, r, i, func_call;
   Sym *func_sym;
-  
+
   int length;
 
   // args_size is the size of the function call arguments already
@@ -597,18 +597,18 @@ void gfunc_call(int nb_args)
   // nested function calls work (passing structs by value causes
   // a memcpy call)
   int restore_args_size = args_size;
-  
+
   for(i = 0;i < nb_args; i++) {
 
       length = type_size(&vtop->type, &align);
       if(vtop->type.t & VT_ARRAY) length = PTR_SIZE;
-      
+
       if ((vtop->type.t & VT_BTYPE) == VT_STRUCT) {
           /* allocate the necessary size on stack */
           pr("; sub sp, #%d\n",length);
           pr("tsa\nsec\nsbc #%d\ntas\n", length);
           args_size += length;
-          
+
           /* generate structure store */
           r = get_reg(RC_INT);
           // put the pointer to struct store on the stack
@@ -616,7 +616,7 @@ void gfunc_call(int nb_args)
           // there is always something to increment or decrement to
           // get the value you actually want. (cf. mvn/mvp)
           pr("stz.b tcc__r%dh\ntsa\nina\nsta.b tcc__r%d\n",r,r);
-          
+
           // here, TCC generates a memcpy call
           // this recursion makes the restore_args_size stuff necessary
           vset(&vtop->type, r | VT_LVAL, 0);
@@ -645,7 +645,7 @@ void gfunc_call(int nb_args)
               switch(length) {
                 case 1: pr("sep #$20\nlda #%d\npha\nrep #$20\n", vtop->c.ul & 0xff); break;
                 case 2: pr("pea.w %d\n", vtop->c.ul & 0xffff); break;
-                case 4: 
+                case 4:
                   pr("pea.w %d\npea.w %d\n", vtop->c.ul >> 16, vtop->c.ul & 0xffff);
                   break;
                 default: error("cannot push %d-byte immediate", length); break;
@@ -835,12 +835,12 @@ void gen_opi(int op)
   int length, align;
   int isconst = 0;
   int timesshift, i;
-  
+
   length = type_size(&vtop[0].type, &align);
   r = vtop[-1].r;
   fr = vtop[0].r;
   fc = vtop[0].c.ul;
-  
+
   // get the actual values
   if((fr & VT_VALMASK) == VT_CONST && op != TOK_UMULL && !(fr & VT_SYM)) {
     // vtop is const, only need to load the other one
@@ -900,7 +900,7 @@ void gen_opi(int op)
       else sign = 0;
       if(op == '/' || op == TOK_UDIV) div = 1;
       else div = 0;
-      
+
       if(isconst) {
         pr("; div #%d, tcc__r%d\n", fc, r);
         pr("ldx.b tcc__r%d\n", r);
@@ -916,10 +916,10 @@ void gen_opi(int op)
 
       if(div) pr("lda.b tcc__r9\nsta.b tcc__r%d\n", r);	// quotient in r9...
       else pr("stx.b tcc__r%d\n", r); // ...remainder in x
-      
+
       break;
 
-    // intops the 65816 can do in hardware      
+    // intops the 65816 can do in hardware
     case '+':
     case TOK_ADDC1:
     case TOK_ADDC2:
@@ -968,7 +968,7 @@ void gen_opi(int op)
         opcalc = "eor";
       }
       else error("ICE 42");
-        
+
       pr("; %s tcc__r%d (0x%x), tcc__r%d (0x%x) (fr type 0x%x c %d r type 0x%x)\n",opcalc, fr, fr,r,r,vtop[0].type.t,vtop[0].c.ul, vtop[-1].type.t);
       //if(vtop[0].type.t == 0x24) asm("int $3");
       if(isconst) {
@@ -988,7 +988,7 @@ void gen_opi(int op)
         pr("%s\nlda.b tcc__r%d\n%s.b tcc__r%d\nsta.b tcc__r%d\n", docarry?opcarry:"; nop", r, opcalc, fr, r);
       }
       break;
-    
+
     case TOK_EQ:
     case TOK_NE:
       r5 = get_reg(RC_R5);
@@ -1010,7 +1010,7 @@ void gen_opi(int op)
                                                         // impediment: TCC does not usually use this register anyway
       vtop->r = r5;
       break;
-    
+
     case TOK_GT:
     case TOK_LE:
     case TOK_LT:
@@ -1143,7 +1143,7 @@ void gen_opf(int op)
   float fcf;
   int length, align;
   int ir;
-  
+
   length = type_size(&vtop[0].type, &align);
   r = vtop[-1].r;
   fr = vtop[0].r;
@@ -1155,9 +1155,9 @@ void gen_opf(int op)
   fr = vtop[0].r;
   ft = vtop[0].type.t;
   vtop--;
-  
+
   pr("; gen_opf len %d op 0x%x ('%c')\n",length,op,op);
-  
+
   switch(op) {
     // multiplication
     case '*':
@@ -1169,15 +1169,15 @@ void gen_opf(int op)
       pr("jsr.l tcc__fdiv\n");
       break;
 
-    // intops the 65816 can do in hardware      
+    // intops the 65816 can do in hardware
     case '+':
       pr("jsr.l tcc__fadd\n");
       break;
-      
+
     case '-':
       pr("jsr.l tcc__fsub\n");
       break;
-      
+
     case TOK_EQ:
     case TOK_NE:
       ir = get_reg(RC_INT);
@@ -1189,7 +1189,7 @@ void gen_opf(int op)
       vtop->r = ir;
       return;
       break;
-      
+
     case TOK_GT:
     case TOK_LE:
     case TOK_LT:
@@ -1227,7 +1227,7 @@ void gen_cvt_itof(int t)
   r = vtop->r;		// register with int
   r2 = vtop->r2;	// register with high word (for long longs)
   it = vtop->type.t;	// type of int
-  
+
   pr("; itof tcc__r%d, f0\n", r);
   if((vtop->type.t & VT_BTYPE) == VT_LLONG) {
     pr("pei (tcc__r%d)\npei (tcc__r%d)\n", r2, r);
@@ -1257,7 +1257,7 @@ void gen_cvt_ftoi(int t)
   pr("; ftoi tcc__f0, tcc__r%d(type 0x%x)\n", r, t);
   if(t & VT_UNSIGNED) pr("lda #0\nsta.b tcc__r9\n");
   else pr("lda #1\nsta.b tcc__r9\n");
-  
+
   // use llfix for any unsigned type to avoid overflow
   if((t & VT_BTYPE) == VT_LLONG || (t & VT_UNSIGNED)) {
     pr("jsr.l tcc__llfix\n");
@@ -1269,7 +1269,7 @@ void gen_cvt_ftoi(int t)
     pr("jsr.l tcc__fix\n");
     pr("lda.b tcc__f0 + 1\nxba\nsta.b tcc__r%d\n", r);
   }
-  
+
   vtop->r = r;
 }
 
@@ -1300,7 +1300,7 @@ void gfunc_prolog(CType* func_type)
 
   sym = func_type->ref;
   func_vt = sym->type;
-  
+
   n=0;
   addr=3;	// skip 24-bit return address
   loc = 0;
@@ -1325,7 +1325,7 @@ void gfunc_prolog(CType* func_type)
     pr("\n.section \".text_0x%x\" superfree\n", section_count++);
     section_closed = 0;
   }
-    
+
   pr("\n%s:\n",current_fn);
 
   while((sym = sym->next)) {
@@ -1351,10 +1351,10 @@ void gfunc_epilog(void)
   pr("; add sp, #__%s_locals\n",current_fn);
   pr(".ifgr __%s_locals 0\ntsa\nclc\nadc #__%s_locals\ntas\n.endif\n", current_fn, current_fn);
   pr("rtl\n");
-  
+
   pr(".ends\n");
   section_closed = 1;
-  
+
   if(-loc > 0x1f00) error("stack overflow");
   //pr(".define __%s_locals %d\n",current_fn,-loc);
   /* simply putting a .define after the function does not work in some cases

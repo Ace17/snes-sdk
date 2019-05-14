@@ -220,7 +220,7 @@ void macro_test(void)
 #line 200
     printf("__LINE__=%d __FILE__=%s\n",
            __LINE__, __FILE__);
-#line 203 "test" 
+#line 203 "test"
     printf("__LINE__=%d __FILE__=%s\n",
            __LINE__, __FILE__);
 #line 220 "tcctest.c"
@@ -247,7 +247,7 @@ void macro_test(void)
         glue(a <, <= 2);
         printf("a=%d\n", a);
     }
-    
+
     /* macro function with argument outside the macro string */
 #define MF_s MF_hello
 #define MF_hello(msg) printf("%s\n",msg)
@@ -256,7 +256,7 @@ void macro_test(void)
 
     MF_s("hi");
     MF_t("hi");
-    
+
     /* test macro substituion inside args (should not eat stream) */
     printf("qq=%d\n", qq(qq)(2));
 
@@ -395,7 +395,7 @@ void goto_test()
     printf("goto:\n");
     i = 0;
  s_loop:
-    if (i >= 10) 
+    if (i >= 10)
         goto s_end;
     printf("%d", i);
     i++;
@@ -526,7 +526,7 @@ int main(int argc, char **argv)
     local_label_test();
     asm_test();
     builtin_test();
-    return 0; 
+    return 0;
 }
 
 int tab[3];
@@ -633,10 +633,10 @@ void expr_test()
     printf("%d\n", ~12);
     printf("%d\n", -12);
     printf("%d\n", +12);
-    printf("%d %d %d %d\n", 
-           isid('a'), 
-           isid('g'), 
-           isid('T'), 
+    printf("%d %d %d %d\n",
+           isid('a'),
+           isid('g'),
+           isid('T'),
            isid('('));
 }
 
@@ -788,7 +788,7 @@ void struct_test()
            sizeof(struct aligntest3), __alignof__(struct aligntest3));
     printf("aligntest4 sizeof=%d alignof=%d\n",
            sizeof(struct aligntest4), __alignof__(struct aligntest4));
-           
+
     /* empty structures (GCC extension) */
     printf("sizeof(struct empty) = %d\n", sizeof(struct empty));
     printf("alignof(struct empty) = %d\n", __alignof__(struct empty));
@@ -803,17 +803,17 @@ void char_short_test()
 
     var1 = 0x01020304;
     var2 = 0xfffefdfc;
-    printf("s8=%d %d\n", 
+    printf("s8=%d %d\n",
            *(char *)&var1, *(char *)&var2);
-    printf("u8=%d %d\n", 
+    printf("u8=%d %d\n",
            *(unsigned char *)&var1, *(unsigned char *)&var2);
-    printf("s16=%d %d\n", 
+    printf("s16=%d %d\n",
            *(short *)&var1, *(short *)&var2);
-    printf("u16=%d %d\n", 
+    printf("u16=%d %d\n",
            *(unsigned short *)&var1, *(unsigned short *)&var2);
-    printf("s32=%d %d\n", 
+    printf("s32=%d %d\n",
            *(int *)&var1, *(int *)&var2);
-    printf("u32=%d %d\n", 
+    printf("u32=%d %d\n",
            *(unsigned int *)&var1, *(unsigned int *)&var2);
     *(char *)&var1 = 0x08;
     printf("var1=%x\n", var1);
@@ -903,7 +903,7 @@ void bool_test()
         static int v1 = 34 ? : -1; /* constant case */
         static int v2 = 0 ? : -1; /* constant case */
         int a = 30;
-        
+
         printf("%d %d\n", v1, v2);
         printf("%d %d\n", a - 30 ? : a * 2, a + 1 ? : a * 2);
     }
@@ -920,8 +920,8 @@ static int tab_reinit[];
 static int tab_reinit[10];
 
 //int cinit1; /* a global variable can be defined several times without error ! */
-int cinit1; 
-int cinit1; 
+int cinit1;
+int cinit1;
 int cinit1 = 0;
 int *cinit2 = (int []){3, 2, 1};
 
@@ -961,7 +961,7 @@ void compound_literal_test(void)
 
     for(i=0;i<3;i++) {
         p = (int []){1, 2, 4 + i};
-        printf("%d %d %d\n", 
+        printf("%d %d %d\n",
                p[0],
                p[1],
                p[2]);
@@ -992,7 +992,7 @@ kr_test()
 void num(int n)
 {
     char *tab, *p;
-    tab = (char*)malloc(20); 
+    tab = (char*)malloc(20);
     p = tab;
     while (1) {
         *p = 48 + (n % 10);
@@ -1031,7 +1031,7 @@ struct structa1 struct_assign_test2(struct structa1 s1, int t)
 void struct_assign_test(void)
 {
     struct structa1 lsta1, lsta2;
-    
+
 #if 0
     printf("struct_assign_test:\n");
 
@@ -1045,7 +1045,7 @@ void struct_assign_test(void)
     lsta2.f2 = 2;
 #endif
     struct_assign_test1(lsta2, 3);
-    
+
     printf("before call: %d %d\n", lsta2.f1, lsta2.f2);
     lsta2 = struct_assign_test2(lsta2, 4);
     printf("after call: %d %d\n", lsta2.f1, lsta2.f2);
@@ -1086,7 +1086,7 @@ void cast_test()
     printf("%d\n", a);
     a = (scast = 65536) + 1;
     printf("%d\n", a);
-    
+
     printf("sizeof(c) = %d, sizeof((int)c) = %d\n", sizeof(c), sizeof((int)c));
 
     /* test implicit int casting for array accesses */
@@ -1120,7 +1120,7 @@ char sinit8[] = "hello" "trala";
 
 struct structinit1 sinit9 = { 1, 2, 3 };
 struct structinit1 sinit10 = { .f2 = 2, 3, .f1 = 1 };
-struct structinit1 sinit11 = { .f2 = 2, 3, .f1 = 1, 
+struct structinit1 sinit11 = { .f2 = 2, 3, .f1 = 1,
 #ifdef ALL_ISOC99
                                .farray[0] = 10,
                                .farray[1] = 11,
@@ -1167,36 +1167,36 @@ void init_test(void)
     int linit15[10] = { linit1, linit1 + 1, [6] = linit1 + 2, };
     struct linit16 { int a1, a2, a3, a4; } linit16 = { 1, .a3 = 2 };
     int linit17 = sizeof(linit17);
-    
+
     printf("init_test:\n");
 
     printf("sinit1=%d\n", sinit1);
     printf("sinit2=%d\n", sinit2);
-    printf("sinit3=%d %d %d %d\n", 
+    printf("sinit3=%d %d %d %d\n",
            sizeof(sinit3),
            sinit3[0],
            sinit3[1],
            sinit3[2]
            );
     printf("sinit6=%d\n", sizeof(sinit6));
-    printf("sinit7=%d %d %d %d\n", 
+    printf("sinit7=%d %d %d %d\n",
            sizeof(sinit7),
            sinit7[0],
            sinit7[1],
            sinit7[2]
            );
     printf("sinit8=%s\n", sinit8);
-    printf("sinit9=%d %d %d\n", 
+    printf("sinit9=%d %d %d\n",
            sinit9.f1,
            sinit9.f2,
            sinit9.f3
            );
-    printf("sinit10=%d %d %d\n", 
+    printf("sinit10=%d %d %d\n",
            sinit10.f1,
            sinit10.f2,
            sinit10.f3
            );
-    printf("sinit11=%d %d %d %d %d %d\n", 
+    printf("sinit11=%d %d %d %d %d %d\n",
            sinit11.f1,
            sinit11.f2,
            sinit11.f3,
@@ -1207,7 +1207,7 @@ void init_test(void)
 
     for(i=0;i<3;i++)
         for(j=0;j<2;j++)
-            printf("[%d][%d] = %d %d %d\n", 
+            printf("[%d][%d] = %d %d %d\n",
                    i, j, sinit4[i][j], sinit5[i][j], linit4[i][j]);
     printf("linit1=%d\n", linit1);
     printf("linit2=%d\n", linit2);
@@ -1216,7 +1216,7 @@ void init_test(void)
 
     printf("sinit12=%s\n", sinit12);
     printf("sinit13=%d %s %s %s\n",
-           sizeof(sinit13), 
+           sizeof(sinit13),
            sinit13[0],
            sinit13[1],
            sinit13[2]);
@@ -1230,7 +1230,7 @@ void init_test(void)
     printf("\n");
     for(i=0;i<10;i++) printf(" %d", linit15[i]);
     printf("\n");
-    printf("%d %d %d %d\n", 
+    printf("%d %d %d %d\n",
            linit16.a1,
            linit16.a2,
            linit16.a3,
@@ -1316,13 +1316,13 @@ void bitfield_test(void)
            st1.f1, st1.f2, st1.f3, st1.f4, st1.f5);
 
     st1.f1 = 7;
-    if (st1.f1 == -1) 
+    if (st1.f1 == -1)
         printf("st1.f1 == -1\n");
-    else 
+    else
         printf("st1.f1 != -1\n");
-    if (st1.f2 == -1) 
+    if (st1.f2 == -1)
         printf("st1.f2 == -1\n");
-    else 
+    else
         printf("st1.f2 != -1\n");
 }
 
@@ -1461,7 +1461,7 @@ void lloptest(long long a, long long b)
            a + b,
            a - b,
            a * b);
-    
+
     if (b != 0) {
         printf("arith1: %Ld %Ld\n",
            a / b,
@@ -1482,7 +1482,7 @@ void lloptest(long long a, long long b)
            a > b,
            a >= b,
            a <= b);
-    
+
     printf("utest: %d %d %d %d %d %d\n",
            ua == ub,
            ua != ub,
@@ -1556,7 +1556,7 @@ long long llfunc1(int a)
 }
 
 struct S {
-    int id; 
+    int id;
     char item;
 };
 
@@ -1577,8 +1577,8 @@ void longlong_test(void)
     a = ia;
     b = ua;
     printf("%Ld %Ld\n", a, b);
-    printf("%Ld %Ld %Ld %Lx\n", 
-           (long long)1, 
+    printf("%Ld %Ld %Ld %Lx\n",
+           (long long)1,
            (long long)-2,
            1LL,
            0x1234567812345679);
@@ -1630,7 +1630,7 @@ void vprintf1(const char *fmt, ...)
     long long ll;
 
     va_start(ap, fmt);
-    
+
     p = fmt;
     for(;;) {
         c = *p;
@@ -1786,15 +1786,15 @@ void statement_expr_test(void)
 
     a = 0;
     for(i=0;i<10;i++) {
-        a += 1 + 
-            ( { int b, j; 
-                b = 0; 
-                for(j=0;j<5;j++) 
-                    b += j; b; 
+        a += 1 +
+            ( { int b, j;
+                b = 0;
+                for(j=0;j<5;j++)
+                    b += j; b;
             } );
     }
     printf("a=%d\n", a);
-    
+
 }
 
 void local_label_test(void)
@@ -1969,7 +1969,7 @@ void builtin_test(void)
     COMPAT_TYPE(int *, const int *);
     COMPAT_TYPE(char *, unsigned char *);
 /* space is needed because tcc preprocessor introduces a space between each token */
-    COMPAT_TYPE(char * *, void *); 
+    COMPAT_TYPE(char * *, void *);
 #endif
     printf("res = %d\n", __builtin_constant_p(1));
     printf("res = %d\n", __builtin_constant_p(1 + 2));

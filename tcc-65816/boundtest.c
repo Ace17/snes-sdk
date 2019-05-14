@@ -79,7 +79,7 @@ int test6(void)
 {
     int i, sum = 0;
     int *tab4;
-    
+
     tab4 = malloc(20 * sizeof(int));
     free(tab4);
     for(i=0;i<21;i++) {
@@ -211,4 +211,4 @@ int main(int argc, char **argv)
 /*
  * without bound   0.77 s
  * with bounds    4.73
- */  
+ */
